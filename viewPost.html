@@ -36,7 +36,8 @@
         <input type="hidden" name="blogName" value="{{ blogName }}">
         <input type="submit" value="Edit Post">
       </form> -->
-      <li><a href="/editPost?author={{author}}&title={{ title }}&blogName={{ blogName }}">Edit Post</a></li>
+      <li><a href="/editPost?postId={{ post.postId }}">Edit Post</a></li>
+      <!-- <li><a href="/editPost?author={{author}}&title={{ title }}&blogName={{ blogName }}">Edit Post</a></li> -->
       
 <!--       <form action="/deletePost">
         <input type="hidden" name="author" value="{{author}}">
@@ -44,7 +45,8 @@
         <input type="hidden" name="blogName" value="{{ blogName }}">
         <input type="submit" value="Delete Post">
       </form> -->
-      <li><a href="/deletePost?author={{author}}&title={{ title }}&blogName={{ blogName }}">Delete Post</a></li>
+      <li><a href="/deletePost?postId={{ post.postId }}">Delete Post</a></li>
+      <!-- <li><a href="/deletePost?author={{author}}&title={{ title }}&blogName={{ blogName }}">Delete Post</a></li> -->
     {% endif %}
           </ul>
         </div><!-- /.navbar-collapse -->
@@ -56,21 +58,22 @@
       <div class="row">
         <div class="col-lg-8">
           <!-- the actual blog post: title/author/date/content -->
-          <h1>{{ title | safe}}</h1>
-          <p class="lead">by {{ author }}</p>
+          <h1>{{post.title}}</h1>
+          <p class="lead">by {{post.author}}</p>
           <hr>
-          <p><span class="glyphicon glyphicon-time"></span> Posted on: {{ createTime }}</p>
-          <p><span class="glyphicon glyphicon-time"></span> Last Modified on: {{ modifiedTime }}</p>
+          <p><span class="glyphicon glyphicon-time"></span> Posted on {{post.createTime}}</p>
+          <p><span class="glyphicon glyphicon-time"></span> Last Modified on {{ post.modifiedTime }}</p>
           <hr>
           <img src="http://placehold.it/900x300" class="img-responsive">
           <hr>
-          <p class="lead">{{ content | safe}}</p>
+          <p class="lead">{{post.contentParser() | safe}}</p>
           <hr>
           <p><strong>Tags:</strong></p>
           <ul>
-          		{% for t in tags %}
-					<li><a href="/tagPosts?tag={{t}}">{{t}}</a></li>
-				{% endfor %}
+
+          {% for t in post.tags %}
+            <li><a href="/tagPosts?tag={{t}}">{{t}}</a></li>
+          {% endfor %}
           </ul>
 
           <hr>
@@ -105,26 +108,15 @@
               </span>
             </div><!-- /input-group -->
           </div><!-- /well -->
-          <div class="well">
-            <h4>Popular Blog Tags</h4>
-              <div class="row">
-                <div class="col-lg-6">
+                    <div class="well">
+            <h4>Popular Post Tags</h4>
+
                   <ul class="list-unstyled">
-                    <li><a href="#dinosaurs">Dinosaurs</a></li>
-                    <li><a href="#spaceships">Spaceships</a></li>
-                    <li><a href="#fried-foods">Fried Foods</a></li>
-                    <li><a href="#wild-animals">Wild Animals</a></li>
+                    {% for t in post.tags %}
+                    <li><a href="/tagPosts?tag={{t}}">{{t}}</a></li>
+                    {% endfor %}
                   </ul>
-                </div>
-                <div class="col-lg-6">
-                  <ul class="list-unstyled">
-                    <li><a href="#alien-abductions">Alien Abductions</a></li>
-                    <li><a href="#business-casual">Business Casual</a></li>
-                    <li><a href="#robots">Robots</a></li>
-                    <li><a href="#fireworks">Fireworks</a></li>
-                  </ul>
-                </div>
-              </div>
+                    
           </div><!-- /well -->
         </div><!-- col 4 -->
       </div> <!-- row -->
@@ -132,7 +124,7 @@
       <footer>
         <div class="row">
           <div class="col-lg-12">
-            <p>Copyright &copy; Company 2013</p>
+            <p>Copyright &copy; xz650@nyu.edu 2013</p>
           </div>
         </div>
       </footer>

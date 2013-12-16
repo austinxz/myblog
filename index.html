@@ -28,8 +28,14 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav">
-          	<li><a href="{{ url|safe }}">{{ url_linktext }}</a></li>
+              {% if user %}
+                <li><a href="/">{{user.email()}}</a></li>
+          	
 			      <li><a href="/createBlogView">Create New Blog</a></li>
+
+              {% else %}
+              {% endif %}
+            <li><a href="{{ url|safe }}">{{ url_linktext }}</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container -->
@@ -37,12 +43,13 @@
     <div class="container">
 
       <div class="row">
-        <div class="col-lg-6">
+        
         {% if user %}
-
+        <div class="col-lg-6">
           <!-- blog entry -->
           {% for blog in blogs %}
-          <h1><a href="/viewBlog?blogName={{ blog.blogName }}&author={{user.email()}}">{{ blog.blogName }}</a></h1>
+          <!-- <h1><a href="/viewBlog?blogName={{ blog.blogName }}&author={{user.email()}}">{{ blog.blogName }}</a></h1> -->
+          <h1><a href="/viewBlog?blogId={{ blog.blogId }}">{{ blog.blogName | safe }}</a></h1>
           <p class="lead">by {{user.email()}}</p>
 <!--           <hr>
           <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:00 PM</p>
@@ -66,23 +73,41 @@
           <div class="well">
           <h1>Blog List</h1>
           {% for _blog in othersBlogs %}
-          <h2><a href="/viewBlog?blogName={{ _blog.blogName }}">{{ _blog.blogName }}</a></h2>
+          <!-- <h2><a href="/viewBlog?blogName={{ _blog.blogName }}">{{ _blog.blogName }}</a></h2> -->
+          <h2><a href="/viewBlog?blogId={{ _blog.blogId }}">{{ _blog.blogName | safe }}</a></h2>
           <p class="lead">by {{_blog.author}}</p>
           {% endfor %}
-    	{% else %}
-    		{% for post in posts %}
-    		<h3><a href="viewPost?blogName={{post.blogName}}&title={{post.title}}">{{ post.title }}</a></h3>
-    		<p class="lead">{{ post.content | safe }}</p>
-    		{% endfor %}
-    	{% endif %}  	
-                                  <!-- pager -->
+
             <ul class="pager">
               <li class="previous"><a href="#">&larr; previous</a></li>
               <li class="next"><a href="#">next &rarr;</a></li>
             </ul>
           </div>
-      </div> <!--span3-->
-        
+        </div>
+    	{% else %}
+      <div class="col-lg-9">
+        <h2>All Blogs</h2>
+        {% for blog in blogs %}
+
+          <h1><a href="viewBlog?blogId={{blog.blogId}}">{{ blog.blogName | safe}}</a></h1>
+          <p class="lead">by {{blog.author}}</p>
+        {% endfor %}
+        <hr>
+        <h2>All Posts</h2>
+    		{% for post in posts %}
+    		<h3><a href="/viewPost?postId={{post.postId}}">{{ post.title }}</a></h3>
+    		<p class="lead">{{ post.content | safe }}</p>
+    		{% endfor %}
+
+                                          <!-- pager -->
+            <ul class="pager">
+              <li class="previous"><a href="#">&larr; previous</a></li>
+              <li class="next"><a href="#">next &rarr;</a></li>
+            </ul>
+      </div>
+    	{% endif %}  	
+
+
         <div class="col-lg-3">
           <div class="well">
             <h4>Blog Search</h4>
@@ -94,25 +119,18 @@
             </div><!-- /input-group -->
           </div><!-- /well -->
           <div class="well">
-            <h4>Popular Blog Tags</h4>
-              <div class="row">
-                <div class="col-lg-6">
+            <h4>Popular Post Tags</h4>
+
                   <ul class="list-unstyled">
-                    <li><a href="#dinosaurs">Dinosaurs</a></li>
-                    <li><a href="#spaceships">Spaceships</a></li>
-                    <li><a href="#fried-foods">Fried Foods</a></li>
-                    <li><a href="#wild-animals">Wild Animals</a></li>
+                    {% for post in posts %}
+
+                    {% for t in post.tags %}
+                    <li><a href="/tagPosts?tag={{t}}">{{t}}</a></li>
+                    {% endfor %}
+
+                    {% endfor %}
                   </ul>
-                </div>
-                <div class="col-lg-6">
-                  <ul class="list-unstyled">
-                    <li><a href="#alien-abductions">Alien Abductions</a></li>
-                    <li><a href="#business-casual">Business Casual</a></li>
-                    <li><a href="#robots">Robots</a></li>
-                    <li><a href="#fireworks">Fireworks</a></li>
-                  </ul>
-                </div>
-              </div>
+                    
           </div><!-- /well -->
         </div>
       </div>

@@ -16,13 +16,19 @@ indexes:
   - name: createTime
     direction: desc
 
-- kind: Blog
+- kind: Post
   properties:
-  - name: blogName
-  - name: author
+  - name: blogId
+  - name: createTime
 
 - kind: Post
   properties:
-  - name: blogName
+  - name: blogId
+  - name: createTime
+    direction: desc
+
+- kind: Post
+  properties:
+  - name: tags
   - name: createTime
     direction: desc
