@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+	<body>
+		<h4>{{tag}}</h4>
+		<hr>
+		 
+		{% for post in posts %}
+			<table border="3">
+				<tr>
+					<td>author: {{ post.author | safe}}</td>
+				</tr>
+				<tr>
+					<td>Create time: {{ post.createTime | safe}}</td>
+				</tr>
+				<tr>
+					<td>Last Modification time: {{ post.modifiedTime | safe}}</td>
+				</tr>
+				<tr>
+					<td><a href="/viewPost?blogName={{blog.blogName}}&title={{post.title}}">{{ post.title }}</a></td>
+				</tr>
+				<tr>
+					<td>{{ post.content | safe}}</td>
+				</tr>
+			</table>
+		{% endfor %}
+
+		<a href="/">Home</a>
+	</body>
+</html>
+{% endautoescape %}
