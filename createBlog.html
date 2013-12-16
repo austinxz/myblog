@@ -13,6 +13,19 @@
         <link href="css/blog-home.css" rel="stylesheet">
     </head>
     <body>
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Blog Home</a>
+        </div>
+      </div><!-- /.container -->
+      </nav>    
     <div class="container">
 
       <div class="row">
@@ -20,7 +33,7 @@
         <div class="well"> 
             <form action="/createBlogDeal" method="post">Blog Name:
               <div class="form-group">
-                <div><textarea name="blogName" rows="1" cols="20"></textarea></div>
+                <div><textarea name="blogName" rows="1" cols="80"></textarea></div>
               </div>
               <input class="btn btn-primary" type="submit" value="Create Blog">
             </form>
@@ -66,7 +79,7 @@
       <footer>
         <div class="row">
           <div class="col-lg-12">
-            <p>Copyright &copy; Company 2013</p>
+            <p>Copyright &copy; xz650@nyu.edu 2013</p>
           </div>
         </div>
       </footer>

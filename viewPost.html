@@ -29,9 +29,23 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav">
-          	
-			<li><a href="/createBlogView">Create New Blog</a></li>
-            <li><a href="#about">About</a></li>
+    {% if edit %}
+      <!-- <form action="/editPost">
+        <input type="hidden" name="author" value="{{ author }}">
+        <input type="hidden" name="title" value="{{ title }}">
+        <input type="hidden" name="blogName" value="{{ blogName }}">
+        <input type="submit" value="Edit Post">
+      </form> -->
+      <li><a href="/editPost?author={{author}}&title={{ title }}&blogName={{ blogName }}">Edit Post</a></li>
+      
+<!--       <form action="/deletePost">
+        <input type="hidden" name="author" value="{{author}}">
+        <input type="hidden" name="title" value="{{ title }}">
+        <input type="hidden" name="blogName" value="{{ blogName }}">
+        <input type="submit" value="Delete Post">
+      </form> -->
+      <li><a href="/deletePost?author={{author}}&title={{ title }}&blogName={{ blogName }}">Delete Post</a></li>
+    {% endif %}
           </ul>
         </div><!-- /.navbar-collapse -->
       	</div><!-- /.container -->
@@ -41,20 +55,17 @@
 
       <div class="row">
         <div class="col-lg-8">
-
-		<h1>{{ blogName }}</h1>
           <!-- the actual blog post: title/author/date/content -->
           <h1>{{ title | safe}}</h1>
-          <p class="lead">author: {{ author }}</p>
+          <p class="lead">by {{ author }}</p>
           <hr>
           <p><span class="glyphicon glyphicon-time"></span> Posted on: {{ createTime }}</p>
-          <hr>
           <p><span class="glyphicon glyphicon-time"></span> Last Modified on: {{ modifiedTime }}</p>
           <hr>
           <img src="http://placehold.it/900x300" class="img-responsive">
           <hr>
           <p class="lead">{{ content | safe}}</p>
-
+          <hr>
           <p><strong>Tags:</strong></p>
           <ul>
           		{% for t in tags %}
@@ -63,24 +74,6 @@
           </ul>
 
           <hr>
-
-		{% if edit %}
-			<form action="/editPost">
-				<input type="hidden" name="author" value="{{ author }}">
-				<input type="hidden" name="title" value="{{ title }}">
-				<input type="hidden" name="blogName" value="{{ blogName }}">
-				<input class="btn btn-primary" type="submit" value="Edit Post">
-			</form>
-
-			<hr>
-			
-			<form action="/deletePost">
-				<input type="hidden" name="author" value="{{author}}">
-				<input type="hidden" name="title" value="{{ title }}">
-				<input type="hidden" name="blogName" value="{{ blogName }}">
-				<input class="btn btn-primary	" type="submit" value="Delete Post">
-			</form>
-		{% endif %}
       <hr>
 		  <!-- the comment box -->
           <div class="well">
