@@ -38,7 +38,7 @@
     <div class="container">
 
       <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-6">
         {% if user %}
 
           <!-- blog entry -->
@@ -56,37 +56,35 @@
           <hr> -->
           {% endfor %}
 
-          <hr>
+                          <!-- pager -->
+          <ul class="pager">
+            <li class="previous"><a href="#">&larr; Older</a></li>
+            <li class="next"><a href="#">Newer &rarr;</a></li>
+          </ul>
 
-          <h1>Other users' blogs</h1>
+        </div> <!--span6-->
+        <div class="col-lg-3">
+
+          <h1>Blog List</h1>
           {% for _blog in othersBlogs %}
           <h2><a href="/viewBlog?blogName={{ _blog.blogName }}">{{ _blog.blogName }}</a></h2>
           <p class="lead">by </p>
           {% endfor %}
     	{% else %}
     		{% for post in posts %}
-    		<h1><a href="viewPost?blogName={{post.blogName}}&title={{post.title}}">{{ post.title }}</a></h1>
+    		<h3><a href="viewPost?blogName={{post.blogName}}&title={{post.title}}">{{ post.title }}</a></h3>
     		<p class="lead">{{ post.content | safe }}</p>
     		{% endfor %}
-    	{% endif %}
-
-    	
-
-    	          <!-- pager -->
-          <ul class="pager">
-            <li class="previous"><a href="#">&larr; Older</a></li>
-            <li class="next"><a href="#">Newer &rarr;</a></li>
-          </ul>
-
-      </div>
+    	{% endif %}  	
+      </div> <!--span3-->
         
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <div class="well">
             <h4>Blog Search</h4>
             <div class="input-group">
               <input type="text" class="form-control">
               <span class="input-group-btn">
-                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span>Search</button>
+                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
               </span>
             </div><!-- /input-group -->
           </div><!-- /well -->
