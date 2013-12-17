@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html lang="en">
+	<head>
+    	<title>Blog Home</title>
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<!-- Bootstrap -->
+    	    <!-- Bootstrap core CSS -->
+    	<link href="css/bootstrap.css" rel="stylesheet">
+
+    	<!-- Add custom CSS here -->
+    	<link href="css/blog-home.css" rel="stylesheet">
+  	</head>
+	<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      	<div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Blog Home</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav">
+              {% if user %}
+                <li><a href="/">{{user.email()}}</a></li>
+          	
+			      <li><a href="/newblog">Create New Blog</a></li>
+
+              {% else %}
+              {% endif %}
+            <li><a href="{{ url|safe }}">{{ url_linktext }}</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container -->
+  </nav>
+  <div class="container">
+
+      <div class="row">
+      	<div class="col-lg-9">
+		<h2>Post of {{tag}}</h2>
+		<hr>
+		 
+		{% for post in posts %}
+		<h3><a href="/post?pid={{post.pid}}">{{ post.title }}</a></h3>
+		{% endfor %}
+
+                                              <!-- pager -->
+            <ul class="pager">
+              {% if page.previous %}
+              <li class="previous"><a href="/tags?tag={{tag}}&currentPageNum={{page.previous}}">&larr; previous</a></li>
+              {% endif %}
+              {% if page.next %}
+              <li class="next"><a href="/tags?tag={{tag}}&currentPageNum={{page.next}}">next &rarr;</a></li>
+              {% endif %}
+
+            </ul>
+		</div>
+
+		<div class="col-lg-3">
+          <div class="well">
+            <h4>Blog Search</h4>
+            <div class="input-group">
+              <input type="text" class="form-control">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+              </span>
+            </div><!-- /input-group -->
+          </div><!-- /well -->
+                    <div class="well">
+            <h4>Popular Post Tags</h4>
+
+                  <ul class="list-unstyled">
+                    {% for post in posts %}
+                    {% for t in post.tags %}
+                    <li><a href="/tags?tag={{t}}">{{t}}</a></li>
+                    {% endfor %}
+                    {% endfor %}
+                  </ul>
+                    
+          </div><!-- /well -->
+        </div>
+      </div>
+      
+      <hr>
+      
+      <footer>
+        <div class="row">
+          <div class="col-lg-12">
+            <p>Copyright &copy; xz650@nyu.edu 2013</p>
+          </div>
+        </div>
+      </footer>
+
+    </div><!-- /.container -->
+
+    <!-- JavaScript -->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+
+  </body>
+</html>
+{% endautoescape %}

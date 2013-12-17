@@ -31,8 +31,8 @@
               {% if user %}
                 <li><a href="/">{{user.email()}}</a></li>
           	
-			      <li><a href="/createBlogView">Create New Blog</a></li>
-            <!-- <li><a href="/uploadPicture?author={{user.email()}}">Upload Picture</a></li> -->
+			      <li><a href="/newblog">Create New Blog</a></li>
+            <!-- <li><a href="/uploadimg?author={{user.email()}}">Upload Picture</a></li> -->
             <!-- <li><a href="/viewPicture">View Picture</a></li> -->
               {% else %}
               {% endif %}
@@ -49,8 +49,8 @@
         <div class="col-lg-6">
           <!-- blog entry -->
           {% for blog in blogs %}
-          <!-- <h1><a href="/viewBlog?blogName={{ blog.blogName }}&author={{user.email()}}">{{ blog.blogName }}</a></h1> -->
-          <h1><a href="/viewBlog?blogId={{ blog.blogId }}">{{ blog.blogName | safe }}</a></h1>
+          <!-- <h1><a href="/blog?bname={{ blog.bname }}&author={{user.email()}}">{{ blog.bname }}</a></h1> -->
+          <h1><a href="/blog?bid={{ blog.bid }}">{{ blog.bname | safe }}</a></h1>
           <p class="lead">by {{user.email()}}</p>
 <!--           <hr>
           <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:00 PM</p>
@@ -69,9 +69,9 @@
         <div class="col-lg-3">
           <div class="well">
           <h1>Blog List</h1>
-          {% for _blog in othersBlogs %}
-          <!-- <h2><a href="/viewBlog?blogName={{ _blog.blogName }}">{{ _blog.blogName }}</a></h2> -->
-          <h2><a href="/viewBlog?blogId={{ _blog.blogId }}">{{ _blog.blogName | safe }}</a></h2>
+          {% for _blog in othersblog %}
+          <!-- <h2><a href="/blog?bname={{ _blog.bname }}">{{ _blog.bname }}</a></h2> -->
+          <h2><a href="/blog?bid={{ _blog.bid }}">{{ _blog.bname | safe }}</a></h2>
           <p class="lead">by {{_blog.author}}</p>
           {% endfor %}
 
@@ -82,18 +82,18 @@
         <div class="col-lg-6">
         <h2>All Posts</h2>
         {% for post in posts %}
-        <h3><a href="/viewPost?postId={{post.postId}}">{{ post.title }}</a></h3>
+        <h3><a href="/post?pid={{post.pid}}">{{ post.title }}</a></h3>
         <hr>
         <p class="lead">{{ post.contentPreview() | safe }}</p>
         {% endfor %}
 
                                           <!-- pager -->
             <ul class="pager">
-              {% if page.previousPage %}
-              <li class="previous"><a href="/?currentPageNum={{page.previousPage}}">&larr; previous</a></li>
+              {% if page.previous %}
+              <li class="previous"><a href="/?currentPageNum={{page.previous}}">&larr; previous</a></li>
               {% endif %}
-              {% if page.nextPage %}
-              <li class="next"><a href="/?currentPageNum={{page.nextPage}}">next &rarr;</a></li>
+              {% if page.next %}
+              <li class="next"><a href="/?currentPageNum={{page.next}}">next &rarr;</a></li>
               {% endif %}
 
             </ul>
@@ -104,7 +104,7 @@
         <h2>All Blogs</h2>
         {% for blog in blogs %}
 
-          <h1><a href="viewBlog?blogId={{blog.blogId}}">{{ blog.blogName | safe}}</a></h1>
+          <h1><a href="blog?bid={{blog.bid}}">{{ blog.bname | safe}}</a></h1>
           <p class="lead">by {{blog.author}}</p>
         {% endfor %}
       </div>
@@ -128,7 +128,7 @@
 
                   <ul class="list-unstyled">
                     {% for t in tags %}
-                    <li><a href="/tagPosts?tag={{t}}">{{t}}</a></li>
+                    <li><a href="/tags?tag={{t}}">{{t}}</a></li>
                     {% endfor %}
                   </ul>
                     

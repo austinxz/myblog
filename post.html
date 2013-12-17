@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+{% autoescape true %}
+
+<html lang="en">
+	<head>
+    	<title>Post</title>
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<!-- Bootstrap -->
+    	    <!-- Bootstrap core CSS -->
+    	<link href="css/bootstrap.css" rel="stylesheet">
+
+    	<!-- Add custom CSS here -->
+    	<link href="css/blog-home.css" rel="stylesheet">
+  	</head>
+
+	<body>
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      	<div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Blog Home</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav">
+    {% if edit %}
+      <!-- <form action="/editpost">
+        <input type="hidden" name="author" value="{{ author }}">
+        <input type="hidden" name="title" value="{{ title }}">
+        <input type="hidden" name="bname" value="{{ bname }}">
+        <input type="submit" value="Edit Post">
+      </form> -->
+      <li><a href="/editpost?pid={{ post.pid }}">Edit Post</a></li>
+      <!-- <li><a href="/editpost?author={{author}}&title={{ title }}&bname={{ bname }}">Edit Post</a></li> -->
+      
+<!--       <form action="/deletepost">
+        <input type="hidden" name="author" value="{{author}}">
+        <input type="hidden" name="title" value="{{ title }}">
+        <input type="hidden" name="bname" value="{{ bname }}">
+        <input type="submit" value="Delete Post">
+      </form> -->
+      <li><a href="/deletepost?pid={{ post.pid }}">Delete Post</a></li>
+      <!-- <li><a href="/deletepost?author={{author}}&title={{ title }}&bname={{ bname }}">Delete Post</a></li> -->
+    {% endif %}
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      	</div><!-- /.container -->
+ 		</nav>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="col-lg-8">
+          <!-- the actual blog post: title/author/date/content -->
+          <h1>{{post.title}}</h1>
+          <p class="lead">by {{post.author}}</p>
+          <hr>
+          <p><span class="glyphicon glyphicon-time"></span> Posted on {{post.createTime}}</p>
+          <p><span class="glyphicon glyphicon-time"></span> Last Modified on {{ post.modifiedTime }}</p>
+          <hr>
+          <p class="lead">{{post.contentParser() | safe}}</p>
+          <hr>
+          <p><strong>Tags:</strong></p>
+          <ul>
+
+          {% for t in post.tags %}
+            <li><a href="/tags?tag={{t}}">{{t}}</a></li>
+          {% endfor %}
+          </ul>
+
+          <hr>
+      <hr>
+
+      <!--like-->
+
+      <div class="fb-like" data-href="http://austinblog17.appspot.com/post?pid={{post.pid}}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+      <br>
+
+
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://austinblog17.appspot.com/post?pid={{post.pid}}">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<script src="https://apis.google.com/js/plusone.js"></script>
+<g:plus action="share"></g:plus>
+
+      <hr>
+
+		  <!-- the comment box -->
+          <div class="well">
+            <h4>Leave a Comment:</h4>
+            <form role="form">
+              <div class="form-group">
+                <textarea class="form-control" rows="3"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+          
+          <hr>
+
+          <!-- the comments -->
+          <h3>Start Bootstrap <small>9:41 PM on August 24, 2013</small></h3>
+          <p>This has to be the worst blog post I have ever read. It simply makes no sense. You start off by talking about space or something, then you randomly start babbling about cupcakes, and you end off with random fish names.</p>
+
+        </div> <!--col 8-->
+
+
+        <div class="col-lg-4">
+          <div class="well">
+            <h4>Blog Search</h4>
+            <div class="input-group">
+              <input type="text" class="form-control">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+              </span>
+            </div><!-- /input-group -->
+          </div><!-- /well -->
+                    <div class="well">
+            <h4>Current Tags</h4>
+
+                  <ul class="list-unstyled">
+                    {% for t in post.tags %}
+                    <li><a href="/tags?tag={{t}}">{{t}}</a></li>
+                    {% endfor %}
+                  </ul>
+                    
+          </div><!-- /well -->
+        </div><!-- col 4 -->
+      </div> <!-- row -->
+      
+      <footer>
+        <div class="row">
+          <div class="col-lg-12">
+            <p>Copyright &copy; xz650@nyu.edu 2013</p>
+          </div>
+        </div>
+      </footer>
+
+    </div><!-- /.container -->
+
+    <!-- JavaScript -->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+
+  </body>
+</html>
+{% endautoescape %}
