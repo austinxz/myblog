@@ -35,11 +35,15 @@
 
 		<div class="well"> 
             <h2>{{ blog.blogName }}</h2>
+            <li><a href="/uploadPicture?author={{user.email()}}" target="_blank">Upload Picture</a></li>
+            <li><p>Copy this permalink and use in the content: </p></li>
+            <li><p>http://17testblog.appspot.com/viewPicture</p></li>
             <form action="/createPostDeal?blogId={{ blog.blogId }}" method="post">
               <div class="form-group">
               	<div>Title: <textarea class="form-control" name="title" rows="1" cols="20"></textarea></div>
 			         	<div>Content: <textarea class="form-control" name="content" rows="20" cols="20"></textarea></div>
 			         	<div>Tags(seperate with ','): <textarea class="form-control" name="tags" rows="1" cols="20"></textarea></div>
+
               </div>
               <input class="btn btn-primary" type="submit" value="Create Post">
             </form>

@@ -33,6 +33,7 @@
              <li><a href="/createPostView?blogId={{blog.blogId}}">New Post</a></li>
             {% else %}
             {% endif %}
+            <!-- <li><a href="/rss?blogId={{blog.blogId}}">RSS</a></li> -->
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container -->
@@ -49,23 +50,29 @@
           <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.createTime | safe}}</p>
           <p><span class="glyphicon glyphicon-time"></span> Last Modified on {{ post.modifiedTime | safe}}</p>
           <hr>
-          <img src="http://placehold.it/900x300" class="img-responsive">
+          <p>{{post.contentPreview() | safe}}</p>
           <hr>
-          <p>{{ post.contentParser() | safe}}</p>
-          <hr>
-          <a class="btn btn-primary" href="/viewPost?postId={{post.postId}}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-                    
-          <hr>
+          <p><strong>Tags:</strong></p>
+          <ul>
+
           {% for t in post.tags %}
             <li><a href="/tagPosts?tag={{t}}">{{t}}</a></li>
           {% endfor %}
+          </ul>
+          <a class="btn btn-primary" href="/viewPost?postId={{post.postId}}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+
 		{% endfor %}		
 		 
-    	          <!-- pager -->
-          <ul class="pager">
-            <li class="previous"><a href="#">&larr; previous</a></li>
-            <li class="next"><a href="#">next &rarr;</a></li>
-          </ul>
+                                          <!-- pager -->
+            <ul class="pager">
+              {% if page.previousPage %}
+              <li class="previous"><a href="/viewBlog?blogId={{blog.blogId}}&currentPageNum={{page.previousPage}}">&larr; previous</a></li>
+              {% endif %}
+              {% if page.nextPage %}
+              <li class="next"><a href="/viewBlog?blogId={{blog.blogId}}&currentPageNum={{page.nextPage}}">next &rarr;</a></li>
+              {% endif %}
+
+            </ul>
 
       </div>
         
@@ -88,15 +95,13 @@
             </div><!-- /input-group -->
           </div><!-- /well -->
                     <div class="well">
-            <h4>Popular Post Tags</h4>
+            <h4>Current Blog Tags</h4>
 
                   <ul class="list-unstyled">
                     {% for post in posts %}
-
                     {% for t in post.tags %}
                     <li><a href="/tagPosts?tag={{t}}">{{t}}</a></li>
                     {% endfor %}
-
                     {% endfor %}
                   </ul>
                     

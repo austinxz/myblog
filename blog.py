@@ -7,6 +7,7 @@ import time
 import re
 
 from google.appengine.api import users
+from google.appengine.api import images
 from google.appengine.ext import db
 
 import webapp2
@@ -58,6 +59,11 @@ class Blog(db.Model):
 	blogName = db.StringProperty(required = True, indexed=True)
 	createTime = db.DateTimeProperty(required = True, indexed=True)
 	modifiedTime = db.DateTimeProperty()
+
+class Picture(db.Model):
+	author = db.StringProperty(required = True)
+	image = db.BlobProperty(required = True, default = None)
+	uploadTime = db.DateTimeProperty(required = True)
 
 # The main page
 class MainPage(webapp2.RequestHandler):
@@ -135,7 +141,18 @@ class CreatePostView(webapp2.RequestHandler):
 	def get(self):
 		blogId = self.request.get('blogId')
 		blog = db.GqlQuery("SELECT * FROM Blog WHERE blogId = :1", blogId)
+
+		if users.get_current_user():
+			url = users.create_logout_url(self.request.uri)
+			url_linktext = 'Logout'
+		else:
+			url = users.create_login_url(self.request.uri)
+			url_linktext = 'Login'
+
 		template_values = {
+			'user': users.get_current_user(),
+			'url': url,
+			'url_linktext': url_linktext,
 			'blog': blog.get(),
 		}
 
@@ -145,8 +162,23 @@ class CreatePostView(webapp2.RequestHandler):
 class CreateBlogView(webapp2.RequestHandler):
 
 	def get(self):
+
+
+		if users.get_current_user():
+			url = users.create_logout_url(self.request.uri)
+			url_linktext = 'Logout'
+		else:
+			url = users.create_login_url(self.request.uri)
+			url_linktext = 'Login'
+
+		template_values = {
+			'user': users.get_current_user(),
+			'url': url,
+			'url_linktext': url_linktext,
+		}
+
 		template = JINJA_ENVIRONMENT.get_template('createBlog.html')
-		self.response.write(template.render())
+		self.response.write(template.render(template_values))
 
 
 # The createPost which to handle the create_post operation.
@@ -158,6 +190,7 @@ class CreatePostDeal(webapp2.RequestHandler):
 		title = self.request.get('title')
 		content = self.request.get('content')
 		tags = self.request.get('tags')
+		img = self.request.get('image')
 
 		blog = db.GqlQuery("SELECT * FROM Blog WHERE blogId = :1", blogId)
 		postId = users.get_current_user().email() + str(datetime.datetime.now())
@@ -175,6 +208,7 @@ class CreatePostDeal(webapp2.RequestHandler):
 		else:
 			tags = list()
 		post.tags = tags
+		
 		post.put()
 
 		time.sleep(1)
@@ -242,11 +276,21 @@ class ViewBlog(webapp2.RequestHandler):
 		# 3. Compute the posts for current page.
 		postsList = posts[(currentPageNum - 1)* 10 : min(currentPageNum * 10, postsNum)]
 
+		if users.get_current_user():
+			url = users.create_logout_url(self.request.uri)
+			url_linktext = 'Logout'
+		else:
+			url = users.create_login_url(self.request.uri)
+			url_linktext = 'Login'
+
 		template_values = {
+			'user': users.get_current_user(),
 			'blog': blog.get(),
 			'page': page,
 			'edit': edit,
 			'posts': postsList,
+			'url': url,
+			'url_linktext': url_linktext,
 		}
 
 		template = JINJA_ENVIRONMENT.get_template('viewBlog.html')
@@ -264,14 +308,26 @@ class ViewPost(webapp2.RequestHandler):
 			edit = True
 		else:
 			edit = False
+		
+		if users.get_current_user():
+			url = users.create_logout_url(self.request.uri)
+			url_linktext = 'Logout'
+		else:
+			url = users.create_login_url(self.request.uri)
+			url_linktext = 'Login'
 
 		template_values = {
+			'user': users.get_current_user(),
 			'edit': edit,
 			'post': post.get(),
+			'url': url,
+			'url_linktext': url_linktext,
 		}
 
 		template = JINJA_ENVIRONMENT.get_template('viewPost.html')
 		self.response.write(template.render(template_values))
+
+
 
 class DeleteBlog(webapp2.RequestHandler):
 
@@ -378,14 +434,73 @@ class TagPosts(webapp2.RequestHandler):
 		# 3. Compute the posts for current page.
 		postsList = posts[(currentPageNum - 1)* 10 : min(currentPageNum * 10, postsNum)]
 
+		if users.get_current_user():
+			url = users.create_logout_url(self.request.uri)
+			url_linktext = 'Logout'
+		else:
+			url = users.create_login_url(self.request.uri)
+			url_linktext = 'Login'
+
 		template_values = {
 			'page': page,
 			'tag': _tag,
-			'posts': postsList
+			'posts': postsList,
+			'user': users.get_current_user(),
+			'url': url,
+			'url_linktext': url_linktext,
 		}
 
 		template = JINJA_ENVIRONMENT.get_template('tagPosts.html')
 		self.response.write(template.render(template_values))
+
+class rss(webapp2.RequestHandler):
+	
+	def get(self):
+		blogId = self.request.get('blogId')
+		blog = db.GqlQuery("SELECT * FROM Blog WHERE blogId = :1", blogId)
+		posts = db.GqlQuery("SELECT * FROM Post WHERE blogId = :1", blogId)
+
+		template_values = {
+			'blog': blog.get(),
+			'posts': posts,
+		}
+
+		template = JINJA_ENVIRONMENT.get_template('rss.xml')
+		self.response.write(template.render(template_values))
+
+class uploadPicture(webapp2.RequestHandler):
+	def get(self):
+		author = self.request.get('author')
+
+		template_values = {
+			'author': author,
+		}
+
+		template = JINJA_ENVIRONMENT.get_template('uploadPicture.html')
+		self.response.write(template.render(template_values))
+
+class uploadPictureDeal(webapp2.RequestHandler):
+
+	def post(self):
+		img = self.request.get('img')
+		author = self.request.get('author')
+
+		picture = Picture(author = author,
+						  image = db.Blob(img),
+						  uploadTime = datetime.datetime.now())
+		picture.put()
+
+		self.redirect('/')
+
+class viewPicture(webapp2.RequestHandler):
+
+	def get(self):
+		pictures = db.GqlQuery("SELECT * FROM Picture")
+
+		for pic in pictures:
+			self.response.headers['Content-Type'] = 'image/png'
+			self.response.out.write(pic.image)
+
 
 application = webapp2.WSGIApplication([
 	('/', MainPage),
@@ -399,6 +514,10 @@ application = webapp2.WSGIApplication([
 	('/deletePost', DeletePost),
 	('/editPost', EditPost),
 	('/tagPosts', TagPosts),
+	('/rss', rss),
+	('/uploadPicture', uploadPicture),
+	('/uploadPictureDeal', uploadPictureDeal),
+	('/viewPicture', viewPicture),
 ], debug = True)
 
 

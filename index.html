@@ -32,7 +32,8 @@
                 <li><a href="/">{{user.email()}}</a></li>
           	
 			      <li><a href="/createBlogView">Create New Blog</a></li>
-
+            <!-- <li><a href="/uploadPicture?author={{user.email()}}">Upload Picture</a></li> -->
+            <!-- <li><a href="/viewPicture">View Picture</a></li> -->
               {% else %}
               {% endif %}
             <li><a href="{{ url|safe }}">{{ url_linktext }}</a></li>
@@ -62,11 +63,7 @@
           <hr> -->
           {% endfor %}
 
-                            <!-- pager -->
-            <ul class="pager">
-              <li class="previous"><a href="#">&larr; previous</a></li>
-              <li class="next"><a href="#">next &rarr;</a></li>
-            </ul>
+
 
         </div> <!--span6-->
         <div class="col-lg-3">
@@ -78,33 +75,41 @@
           <p class="lead">by {{_blog.author}}</p>
           {% endfor %}
 
-            <ul class="pager">
-              <li class="previous"><a href="#">&larr; previous</a></li>
-              <li class="next"><a href="#">next &rarr;</a></li>
-            </ul>
           </div>
         </div>
     	{% else %}
-      <div class="col-lg-9">
+
+        <div class="col-lg-6">
+        <h2>All Posts</h2>
+        {% for post in posts %}
+        <h3><a href="/viewPost?postId={{post.postId}}">{{ post.title }}</a></h3>
+        <hr>
+        <p class="lead">{{ post.contentPreview() | safe }}</p>
+        {% endfor %}
+
+                                          <!-- pager -->
+            <ul class="pager">
+              {% if page.previousPage %}
+              <li class="previous"><a href="/?currentPageNum={{page.previousPage}}">&larr; previous</a></li>
+              {% endif %}
+              {% if page.nextPage %}
+              <li class="next"><a href="/?currentPageNum={{page.nextPage}}">next &rarr;</a></li>
+              {% endif %}
+
+            </ul>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="well">
         <h2>All Blogs</h2>
         {% for blog in blogs %}
 
           <h1><a href="viewBlog?blogId={{blog.blogId}}">{{ blog.blogName | safe}}</a></h1>
           <p class="lead">by {{blog.author}}</p>
         {% endfor %}
-        <hr>
-        <h2>All Posts</h2>
-    		{% for post in posts %}
-    		<h3><a href="/viewPost?postId={{post.postId}}">{{ post.title }}</a></h3>
-    		<p class="lead">{{ post.content | safe }}</p>
-    		{% endfor %}
-
-                                          <!-- pager -->
-            <ul class="pager">
-              <li class="previous"><a href="#">&larr; previous</a></li>
-              <li class="next"><a href="#">next &rarr;</a></li>
-            </ul>
       </div>
+    </div>
+
     	{% endif %}  	
 
 
@@ -122,12 +127,8 @@
             <h4>Popular Post Tags</h4>
 
                   <ul class="list-unstyled">
-                    {% for post in posts %}
-
-                    {% for t in post.tags %}
+                    {% for t in tags %}
                     <li><a href="/tagPosts?tag={{t}}">{{t}}</a></li>
-                    {% endfor %}
-
                     {% endfor %}
                   </ul>
                     

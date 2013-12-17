@@ -20,11 +20,6 @@ indexes:
   properties:
   - name: blogId
   - name: createTime
-
-- kind: Post
-  properties:
-  - name: blogId
-  - name: createTime
     direction: desc
 
 - kind: Post

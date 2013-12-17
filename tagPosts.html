@@ -50,6 +50,17 @@
 		{% for post in posts %}
 		<h3><a href="/viewPost?postId={{post.postId}}">{{ post.title }}</a></h3>
 		{% endfor %}
+
+                                              <!-- pager -->
+            <ul class="pager">
+              {% if page.previousPage %}
+              <li class="previous"><a href="/tagPosts?tag={{tag}}&currentPageNum={{page.previousPage}}">&larr; previous</a></li>
+              {% endif %}
+              {% if page.nextPage %}
+              <li class="next"><a href="/tagPosts?tag={{tag}}&currentPageNum={{page.nextPage}}">next &rarr;</a></li>
+              {% endif %}
+
+            </ul>
 		</div>
 
 		<div class="col-lg-3">
@@ -67,11 +78,9 @@
 
                   <ul class="list-unstyled">
                     {% for post in posts %}
-
                     {% for t in post.tags %}
                     <li><a href="/tagPosts?tag={{t}}">{{t}}</a></li>
                     {% endfor %}
-
                     {% endfor %}
                   </ul>
                     

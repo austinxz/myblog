@@ -14,6 +14,15 @@
   	</head>
 
 	<body>
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       	<div class="container">
         <div class="navbar-header">
@@ -64,8 +73,6 @@
           <p><span class="glyphicon glyphicon-time"></span> Posted on {{post.createTime}}</p>
           <p><span class="glyphicon glyphicon-time"></span> Last Modified on {{ post.modifiedTime }}</p>
           <hr>
-          <img src="http://placehold.it/900x300" class="img-responsive">
-          <hr>
           <p class="lead">{{post.contentParser() | safe}}</p>
           <hr>
           <p><strong>Tags:</strong></p>
@@ -78,6 +85,21 @@
 
           <hr>
       <hr>
+
+      <!--like-->
+
+      <div class="fb-like" data-href="http://austinblog17.appspot.com/viewPost?postId={{post.postId}}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+      <br>
+
+
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://austinblog17.appspot.com/viewPost?postId={{post.postId}}">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<script src="https://apis.google.com/js/plusone.js"></script>
+<g:plus action="share"></g:plus>
+
+      <hr>
+
 		  <!-- the comment box -->
           <div class="well">
             <h4>Leave a Comment:</h4>
@@ -109,7 +131,7 @@
             </div><!-- /input-group -->
           </div><!-- /well -->
                     <div class="well">
-            <h4>Popular Post Tags</h4>
+            <h4>Current Tags</h4>
 
                   <ul class="list-unstyled">
                     {% for t in post.tags %}
