@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% autoescape true %}
+
+<html lang="en">
+	<head>
+    	<title>Post</title>
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<!-- Bootstrap -->
+    	    <!-- Bootstrap core CSS -->
+    	<link href="css/bootstrap.css" rel="stylesheet">
+
+    	<!-- Add custom CSS here -->
+    	<link href="css/blog-home.css" rel="stylesheet">
+  	</head>
+	<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Blog Home</a>
+        </div>
+      </div><!-- /.container -->
+  </nav>
+
+    <form action="/uploadPictureDeal" enctype="multipart/form-data" method="post">Select a picture:
+        <div><input type="hidden" name="author", value="author={{author}}"/></div>
+        <div><input type="file" name="img"/></div>
+        <input class="btn btn-primary" type="submit" value="Upload">
+    </form>
+    <!-- JavaScript -->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+
+  </body>
+</html>
+{% endautoescape %}
