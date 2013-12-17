@@ -2,14 +2,14 @@
 	{% autoescape true %}
 	<rss version="2.0">
 		<channel>
- 			<title>{{blog.bname}}</title>
- 			<link>{{blog.bname}}</link>
+ 			<title>{{blog.blogName}}</title>
+ 			<link>{{blog.blogName}}</link>
  
  			{% for post in posts %}
  				<item>
  					<title>{{post.title}}</title>
   					<description>{{post.contentParser() | safe}}</description>
-  					<guid>{{post.pid}}</guid>
+  					<guid>{{post.postId}}</guid>
   					<pubDate>{{post.createdTime}}</pubDate>
  				</item>
  			{% endfor %}

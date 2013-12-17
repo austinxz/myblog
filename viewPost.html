@@ -39,23 +39,23 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav">
     {% if edit %}
-      <!-- <form action="/editPost">
+      <!-- <form action="/editpost">
         <input type="hidden" name="author" value="{{ author }}">
         <input type="hidden" name="title" value="{{ title }}">
         <input type="hidden" name="blogName" value="{{ blogName }}">
         <input type="submit" value="Edit Post">
       </form> -->
-      <li><a href="/editPost?postId={{ post.postId }}">Edit Post</a></li>
-      <!-- <li><a href="/editPost?author={{author}}&title={{ title }}&blogName={{ blogName }}">Edit Post</a></li> -->
+      <li><a href="/editpost?postId={{ post.postId }}">Edit Post</a></li>
+      <!-- <li><a href="/editpost?author={{author}}&title={{ title }}&blogName={{ blogName }}">Edit Post</a></li> -->
       
-<!--       <form action="/deletePost">
+<!--       <form action="/deletepost">
         <input type="hidden" name="author" value="{{author}}">
         <input type="hidden" name="title" value="{{ title }}">
         <input type="hidden" name="blogName" value="{{ blogName }}">
         <input type="submit" value="Delete Post">
       </form> -->
-      <li><a href="/deletePost?postId={{ post.postId }}">Delete Post</a></li>
-      <!-- <li><a href="/deletePost?author={{author}}&title={{ title }}&blogName={{ blogName }}">Delete Post</a></li> -->
+      <li><a href="/deletepost?postId={{ post.postId }}">Delete Post</a></li>
+      <!-- <li><a href="/deletepost?author={{author}}&title={{ title }}&blogName={{ blogName }}">Delete Post</a></li> -->
     {% endif %}
           </ul>
         </div><!-- /.navbar-collapse -->
@@ -79,7 +79,7 @@
           <ul>
 
           {% for t in post.tags %}
-            <li><a href="/tagPosts?tag={{t}}">{{t}}</a></li>
+            <li><a href="/tags?tag={{t}}">{{t}}</a></li>
           {% endfor %}
           </ul>
 
@@ -88,11 +88,11 @@
 
       <!--like-->
 
-      <div class="fb-like" data-href="http://austinblog17.appspot.com/viewPost?postId={{post.postId}}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+      <div class="fb-like" data-href="http://austinblog17.appspot.com/post?postId={{post.postId}}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
       <br>
 
 
-<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://austinblog17.appspot.com/viewPost?postId={{post.postId}}">Tweet</a>
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://austinblog17.appspot.com/post?postId={{post.postId}}">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
 <script src="https://apis.google.com/js/plusone.js"></script>
@@ -135,7 +135,7 @@
 
                   <ul class="list-unstyled">
                     {% for t in post.tags %}
-                    <li><a href="/tagPosts?tag={{t}}">{{t}}</a></li>
+                    <li><a href="/tags?tag={{t}}">{{t}}</a></li>
                     {% endfor %}
                   </ul>
                     

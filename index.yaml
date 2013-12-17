@@ -18,7 +18,7 @@ indexes:
 
 - kind: Post
   properties:
-  - name: bid
+  - name: blogId
   - name: createTime
     direction: desc
 

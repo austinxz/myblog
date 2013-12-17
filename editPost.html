@@ -35,7 +35,7 @@
             
         <div class="well"> 
           <h2>{{ post.blogName }}</h2>
-            <form action="/editPost?postId={{ post.postId }}" method="post">
+            <form action="/editpost?postId={{ post.postId }}" method="post">
               <div class="form-group">
                 <div>Title: <textarea class="form-control" name="new_title" rows="1" cols="20">{{ post.title }}</textarea></div>
                 <div>Content: <textarea class="form-control" <textarea name="new_content" rows="20" cols="20">{{ post.content | safe }}</textarea></div>
@@ -61,7 +61,7 @@
 
                   <ul class="list-unstyled">
                     {% for t in post.tags %}
-                    <li><a href="/tagPosts?tag={{t}}">{{t}}</a></li>
+                    <li><a href="/tags?tag={{t}}">{{t}}</a></li>
                     {% endfor %}
                   </ul>
                     
